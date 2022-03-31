@@ -1,5 +1,7 @@
 const search = document.querySelector('#search');
 const pokemonInfo = document.querySelectorAll('.pokemon-info'); //array of all fields that will use API to change HTML
+const typeList = document.querySelector("#pokemon-types")
+const abilityList = document.querySelector("#pokemon-abilities")
 
 //grab value from text input
 const searchPokemon = () => {
@@ -47,19 +49,35 @@ const getPokemonData = () => {
           break
             case 'shiny-male':
               document.querySelector("img[data-shinyMale='shiny-male']").src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemon.id}.png`;
-              document.querySelector("img[data-shinyMale='shiny-male']").alt = pokemon.name;
+              document.querySelector("img[data-shinyMale='shiny-male']").alt = `shiny ${pokemon.name}`;
             break
-            case 'shiny-female': console.log(pokemon.name);
+            case 'shiny-female':
               if (pokemon.sprites.front_shiny_female) {
               document.querySelector("img[data-shinyFemale='shiny-female']").src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/female/${pokemon.id}.png`;
-              document.querySelector("img[data-shinyFemale='shiny-female']").alt = pokemon.name;
+              document.querySelector("img[data-shinyFemale='shiny-female']").alt = `shiny ${pokemon.name}`;
             }
-          break        
-            case 'abilities': console.log(pokemon.name);
-            document.querySelector("div[data-abilities='abilities']").innerHTML = pokemon.abilities
+          break      
+            case 'abilities':
+              const abilitiesObject = pokemon.abilities
+              for (let x = 0; x <= abilitiesObject.length-1; x ++) {
+                const abilityItem = document.createElement('li');
+                const abilityUrl = document.createElement('a');
+                abilityItem.classList.add('pokemon-ability')
+                abilityItem.innerHTML = abilitiesObject[x].ability.name;
+                abilityUrl.innerHTML = ' - see ability';
+                abilityUrl.href = abilitiesObject[x].ability.url;
+                abilityList.appendChild(abilityItem); 
+                abilityItem.appendChild(abilityUrl);                
+              }
           break       
-            case 'type': console.log(pokemon.name);
-            document.querySelector("div[data-type='type']").innerHTML = pokemon.type;
+            case 'type':
+              const typesObject = pokemon.types
+              for (let x = 0; x <= typesObject.length-1; x ++) {
+                const typeItem = document.createElement('li');
+                typeItem.classList.add('pokemon-ability')
+                typeItem.innerHTML = typesObject[x].type.name;
+                typeList.appendChild(typeItem);                
+              }
           break        
             default: console.log('hello')
           }
@@ -67,10 +85,8 @@ const getPokemonData = () => {
     })
   }
 
-
-//if type[0] is grass - background = green etc
-
-
+//create a stats case,
+//if type = green backgroundcolor = green etc
 
 // // evolution api request
 // // fetch("https://pokeapi.co/api/v2/evolution-chain/1/")
