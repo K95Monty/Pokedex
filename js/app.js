@@ -1,74 +1,87 @@
-const namePokemon = document.getElementById("name");
-const imageNormalPokemon = Array.from(document.getElementsByClassName("normal-image")); //array of images
-const infoPokemon = document.getElementsByClassName("pokemon-info"); //array of extra info
-const evolutionPokemon = document.getElementsByClassName("evolution");
-const idPokemon = document.getElementById("id")
+const search = document.querySelector('#search');
+const pokemonInfo = document.querySelectorAll('.pokemon-info'); //array of all fields that will use API to change HTML
 
+//grab value from text input
+const searchPokemon = () => {
+  const pokemon = search.value;
+  console.log(pokemon);
+  return pokemon
+}
 
-  // const getValueInput = () =>{
-  //   let inputName = document.getElementById("search").value; 
-  //   document.getElementById("search").innerHTML = inputName;
-  //   console.log(inputName);
-  //   return inputName;
-  // }
+//make sure function runs when enter key is pressed
+search.addEventListener('keydown', function(e) {
+  if (e.keyCode === 13) {
+    searchPokemon();
+  }
+})
 
-  let id = "pikachu"
-  
-  const getPokemonData = () => {
+//assign id to the value obtained from searchPokemon function
+const id = searchPokemon();
+
+//send GET request to API for pokemon data - async function to write after searchpokemon is complete
+const getPokemonData = () => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
       .then(response => {
         return response.json();
       })
       .then(pokemon => {
-
-        namePokemon.innerText = pokemon.name;
-        idPokemon.innerText = "#" + pokemon.id.toString();
         
-        document.getElementById("normal-male").src = pokemon.sprites.front_default; //src for img
-          if (!pokemon.sprites.front_female) {
-            document.getElementById("normal-female").style.display = "none";
+        //iterate through array pokemonInfo and fill out the info.
+        for (let i = 0; i <= pokemonInfo.length - 1; i++) {
+          switch(pokemonInfo[i].attributes[1].nodeValue) {
+            case 'id': 
+              document.querySelector("h2[data-id='id']").innerHTML = `#${pokemon.id}`;
+          break
+            case 'name': 
+              document.querySelector("h3[data-name='name']").innerHTML = pokemon.name;
+          break
+            case 'male': 
+             document.querySelector("img[data-male='male']").src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
+             document.querySelector("img[data-male='male']").alt = pokemon.name;
+          break
+            case 'female': 
+              if (pokemon.sprites.front_female) {
+                document.querySelector("img[data-female='female']").src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/female/${pokemon.id}.png`;
+                document.querySelector("img[data-female='female']").alt = pokemon.name;
+              }
+          break
+            case 'shiny-male':
+              document.querySelector("img[data-shinyMale='shiny-male']").src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemon.id}.png`;
+              document.querySelector("img[data-shinyMale='shiny-male']").alt = pokemon.name;
+            break
+            case 'shiny-female': console.log(pokemon.name);
+              if (pokemon.sprites.front_shiny_female) {
+              document.querySelector("img[data-shinyFemale='shiny-female']").src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/female/${pokemon.id}.png`;
+              document.querySelector("img[data-shinyFemale='shiny-female']").alt = pokemon.name;
+            }
+          break        
+            case 'abilities': console.log(pokemon.name);
+            document.querySelector("div[data-abilities='abilities']").innerHTML = pokemon.abilities
+          break       
+            case 'type': console.log(pokemon.name);
+            document.querySelector("div[data-type='type']").innerHTML = pokemon.type;
+          break        
+            default: console.log('hello')
           }
-          else {
-            document.getElementById("normal-female").style.display = "block";
-            document.getElementById("normal-female").src = pokemon.sprites.front_female;
-          }
-        document.getElementById("shiny-male").src = pokemon.sprites.front_shiny; //src for img
-          if (!pokemon.sprites.front_shiny_female) {
-            document.getElementById("shiny-female").style.display = "none";
-          }
-          else {
-            document.getElementById("shiny-female").style.display = "block";
-            document.getElementById("shiny-female").src = pokemon.sprites.front_shiny_female;
-          }
-        }
-      )
-    }
+        }      
+    })
+  }
+
+
+//if type[0] is grass - background = green etc
 
 
 
+// // evolution api request
+// // fetch("https://pokeapi.co/api/v2/evolution-chain/1/")
+// //   .then(response => {
+// //     return response.json();
+// //   })
+// //   .then(pokemon => {
+// //     console.log(pokemon.chain.species.name); //next evolution
 
-  //console.log(pokemon.moves[0].move.name); //array for moves
+// //   })
 
-  //console.log(pokemon.types[0].type.name); //array types 
- 
-  //console.log(pokemon.sprites.front_shiny); //src for img might
-  //console.log(pokemon.sprites.front_shiny_female); //src for img might = null
-//    console.log(pokemon.abilities[0].ability.name); //array for abilities
-
-
-
-
-
-// evolution api request
-// fetch("https://pokeapi.co/api/v2/evolution-chain/1/")
-//   .then(response => {
-//     return response.json();
-//   })
-//   .then(pokemon => {
-//     console.log(pokemon.chain.species.name); //next evolution
-
-//   })
-
-//   //console.log(pokemon.chain.species.name); //name of pokemon in evolve chain
-// //console.log(pokemon.chain.evolves_to[0].evolves_to[0].species.name); //last evolution
-// //console.log(pokemon.chain.species.name); //next evolution
+// //   //console.log(pokemon.chain.species.name); //name of pokemon in evolve chain
+// // //console.log(pokemon.chain.evolves_to[0].evolves_to[0].species.name); //last evolution
+// // //console.log(pokemon.chain.species.name); //next evolution

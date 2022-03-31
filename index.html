@@ -14,37 +14,43 @@
         <header class="pokemon-search">
             <h1>Pokedex</h1>
             <form>
-                <input type="text" placeholder="search for Pokemon" id="search" >
-                <button id="submit" onclick="getValueInput()">Find</button>
+                <input type="text" placeholder="Type Pokemon name or #id" id="search">
+                <input placeholder="Search For Pokemon" id="find" onclick="getPokemonData()">
             </form>
             <button class="form-button" id="back">Back</button>
             <button class="form-button" id="next">Next</button>
             <button class="form-button" id="random">Random</button>
         </header>
-        <section class="pokemon-grid">
-            <div class="pokemon-order">
-                <span id="id">#</span>
-                <h2 id="name">name of pokemon</h2>
-            </div>
-            <div class="pokemon-images">
-                <div class="image normal-image">
-                    <img src="" alt="" id="normal-male"><p>male</p><!--add male icon-->
-                    <img src="" alt="" id="normal-female"><!--add female icon-->
+        <section id="pokemon-grid">
+            
+                <h2 class="pokemon-info" data-id="id">#</h2>
+                <h3 class="pokemon-info" data-name="name">name of pokemon<h3>
+                <img class="pokemon-info" data-male="male" src="" alt=""><p>male</p><!--add male icon-->
+                <img class="pokemon-info" data-female="female" src="" alt=""><p>female</p><!--add female icon-->
+                <img class="pokemon-info" data-shinyMale="shiny-male" src="" alt=""><p>shiny male</p>
+                <img class="pokemon-info" data-shinyFemale="shiny-female" src="" alt=""><p>shiny female</p>       
+                <div class="pokemon-info" data-abilities="abilities">
+                    <ul>
+                        <li>
+                            Ability 1
+                        </li>
+                        <li>
+                            Ability 2
+                        </li>
+                    </ul>
                 </div>
-                <div class="image shiny-image">
-                    <img src="" alt="" id="shiny-male"><div>male</div>
-                    <img src="" alt="" id="shiny-female"><div>female</div>
-                </div>
-            </div>
-            <section class="pokemon-data">
-                <div class="pokemon-info" id="abilities">ability</div>
-                <div class="pokemon-info" id="types">type</div>
-                <div class="pokemon-info" id="moves">moves</div>
-                <div class="pokemon-info" id="weaknesses">weakness</div>
-            </section>
-            <section class="pokemon-evolution">
-                <div>evolution</div>
-            </section>
+                <div class="pokemon-info" data-type="type">
+                    <ul>
+                        <ul>
+                            <li>
+                                Type 1
+                            </li>
+                            <li>
+                                Type 2
+                            </li>
+                        </ul>
+                    </ul>
+                </div>            
         </section>
 
         <script type="text/javascript" src="js\app.js"></script>
