@@ -18,26 +18,41 @@ h1 {
 }
 
 form {
-    height: 25px;
-    width: 70%;
-    margin: 0 auto;
+    min-width: 200px;
+    max-width: 500px;
+    text-align: center;
+    margin: 10px auto;
     font-size: 1rem;
+    padding:  0 10px 10px 10px;
 }
 
 #search {
     padding: 2px 6px;
-}
-
-#find {
-    width: 60px;
-    text-align: center;
-    padding: 2px 6px;
-}
-
-#random {
-    margin-top: 10px;
-    padding: 8px 12px;
+    margin: 0 auto;
     font-size: 1rem;
+    min-width: 300px;
+    max-width: 500px;
+    display: block;
+}
+
+.pokemon-btns { 
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+form button {
+    background-color: white;
+}
+
+.form-button {
+    padding: 4px 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 10px 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    border-radius: 3px;
 }
 
 #pokemon-grid {
@@ -48,27 +63,6 @@ form {
     font-size: 1rem;
     border-radius: 8px;
     min-height: 600px;
-}
-
-@media only screen and (min-width: 768px) {
-    #pokemon-grid {
-        width: 60%;
-        padding: 20px;
-    }
-    .pokemon-id {
-        font-size: 3rem;
-    }
-    .pokemon-images img {
-        width: 200px;
-        height: auto;
-    }
-    .pokemon-lists{
-        font-size: 2.2rem;
-    }
-    .pokemon-lists li {
-        font-size: 1.8rem;
-        padding-bottom: 15px;
-    }
 }
 
 .pokemon-id {
@@ -131,17 +125,3 @@ form {
     border-radius: 5px;
 }
 
-.pokemon-btns { 
-    width: 100%;
-    margin-top: 20px;
-    text-align: center;
-}
-
-button {
-    padding: 8px 12px;
-    font-size: 1rem;
-    margin: 0 5px;
-    background-color: white;
-    text-decoration: none;
-    border-radius: 3px;
-}
