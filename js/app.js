@@ -1,24 +1,55 @@
 const search = document.querySelector('#search');
-const pokemonInfo = document.querySelectorAll('.pokemon-info'); //array of all fields that will use API to change HTML
 const typeList = document.querySelector("#pokemon-types")
 const abilityList = document.querySelector("#pokemon-abilities")
 
-//grab value from text input
-const searchPokemon = () => {
-  const pokemon = search.value;
-  console.log(pokemon);
-  return pokemon
-}
+const form = document.querySelector('form')
 
-//make sure function runs when enter key is pressed
-search.addEventListener('keydown', function(e) {
-  if (e.keyCode === 13) {
-    searchPokemon();
-  }
-})
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const id = search.value;
+    fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+      .then(response => {
+        return response.json();
+      })
+      .then(pokemon => {
 
-//assign id to the value obtained from searchPokemon function
-const id = searchPokemon();
+        document.querySelector("h2[data-id='id']").innerHTML = `#${pokemon.id}`;
+        document.querySelector("h3[data-name='name']").innerHTML = pokemon.name;
+        document.querySelector("img[data-male='male']").src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
+        document.querySelector("img[data-male='male']").alt = pokemon.name;
+        document.querySelector("img[data-shinyMale='shiny-male']").src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemon.id}.png`;
+        document.querySelector("img[data-shinyMale='shiny-male']").alt = `shiny ${pokemon.name}`;
+
+        if (pokemon.sprites.front_female) {
+          document.querySelector("img[data-female='female']").src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/female/${pokemon.id}.png`;
+          document.querySelector("img[data-female='female']").alt = pokemon.name;
+        }
+        if (pokemon.sprites.front_shiny_female) {
+          document.querySelector("img[data-shinyFemale='shiny-female']").src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/female/${pokemon.id}.png`;
+          document.querySelector("img[data-shinyFemale='shiny-female']").alt = `shiny ${pokemon.name}`;
+        }
+
+        const abilitiesObject = pokemon.abilities
+          for (let x = 0; x <= abilitiesObject.length-1; x ++) {
+            const abilityItem = document.createElement('li');
+            const abilityUrl = document.createElement('a');
+              abilityItem.classList.add('pokemon-ability')
+              abilityItem.innerHTML = abilitiesObject[x].ability.name;
+              abilityUrl.innerHTML = ' - see ability';
+              abilityUrl.href = abilitiesObject[x].ability.url;
+              abilityList.appendChild(abilityItem); 
+              abilityItem.appendChild(abilityUrl);                
+          }
+
+        const typesObject = pokemon.types
+          for (let x = 0; x <= typesObject.length-1; x ++) {
+            const typeItem = document.createElement('li');
+              typeItem.classList.add('pokemon-ability')
+              typeItem.innerHTML = typesObject[x].type.name;
+              typeList.appendChild(typeItem);    
+          }
+    })
+});
 
 //send GET request to API for pokemon data - async function to write after searchpokemon is complete
 const getPokemonData = () => {
